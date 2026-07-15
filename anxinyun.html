@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>安心云 - 企业数字化安全管理平台</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    :root {
+      --brand-primary: #1677FF;
+      --brand-primary-dark: #0958D9;
+      --brand-primary-50: #E6F4FF;
+      --brand-primary-100: #BAE0FF;
+      --brand-grad: linear-gradient(135deg, #1677FF 0%, #4096FF 100%);
+      --brand-grad-light: linear-gradient(180deg, #E6F4FF 0%, #FFFFFF 100%);
+    }
+
+    .page-hero {
+      position: relative;
+      padding: 80px 24px 100px;
+      background: var(--brand-grad-light);
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -100px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(22,119,255,0.1) 0%, transparent 60%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -150px;
+      left: -100px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(64,150,255,0.08) 0%, transparent 60%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .page-hero-inner {
+      max-width: var(--container);
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .page-hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      background: rgba(22,119,255,0.1);
+      color: var(--brand-primary);
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: var(--radius-full);
+      margin-bottom: 20px;
+      border: 1px solid rgba(22,119,255,0.2);
+    }
+    .page-hero-title {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.15;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+    .page-hero-title-grad {
+      background: var(--brand-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .page-hero-desc {
+      font-size: 17px;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      margin-bottom: 32px;
+      max-width: 520px;
+    }
+    .page-hero-actions {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .page-hero-stat-row {
+      display: flex;
+      gap: 40px;
+    }
+    .page-hero-stat-item {
+      text-align: left;
+    }
+    .page-hero-stat-num {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--brand-primary);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .page-hero-stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .page-hero-visual {
+      position: relative;
+      height: 420px;
+    }
+    .hero-mockup {
+      position: absolute;
+      background: #fff;
+      border-radius: var(--radius-2xl);
+      box-shadow: 0 20px 50px rgba(22,119,255,0.15);
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+    }
+    .hero-mockup-main {
+      top: 0;
+      left: 0;
+      right: 40px;
+      bottom: 20px;
+      padding: 20px;
+    }
+    .mockup-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--gray-100);
+      margin-bottom: 16px;
+    }
+    .mockup-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .mockup-badge {
+      padding: 3px 10px;
+      background: var(--brand-primary-50);
+      color: var(--brand-primary);
+      font-size: 11px;
+      font-weight: 500;
+      border-radius: var(--radius-full);
+    }
+    .mockup-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .mockup-stat-card {
+      padding: 14px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--brand-primary-50), #E6FFFB);
+    }
+    .mockup-stat-num {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--brand-primary);
+    }
+    .mockup-stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .mockup-chart {
+      background: var(--gray-50);
+      border-radius: var(--radius);
+      padding: 14px;
+      height: 120px;
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+    }
+    .mockup-bar {
+      flex: 1;
+      background: var(--brand-primary-100);
+      border-radius: 4px 4px 0 0;
+      transition: height 0.3s;
+    }
+    .mockup-bar.primary {
+      background: var(--brand-grad);
+    }
+    .mockup-float {
+      position: absolute;
+      background: #fff;
+      border-radius: var(--radius-xl);
+      padding: 14px 18px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      border: 1px solid var(--gray-100);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .mockup-float-1 {
+      top: 30px;
+      right: 0;
+      animation: floatY 3s ease-in-out infinite;
+    }
+    .mockup-float-2 {
+      bottom: 40px;
+      right: 20px;
+      animation: floatY 3s ease-in-out infinite 1s;
+    }
+    .mockup-float-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+    .mockup-float-icon.cyan { background: var(--brand-grad); }
+    .mockup-float-icon.green { background: linear-gradient(135deg, #52C41A, #73D13D); }
+    .mockup-float-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .mockup-float-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .section-soft-grad {
+      background: linear-gradient(180deg, #FFFFFF 0%, #F5F9FF 50%, #FFFFFF 100%);
+    }
+
+    .brand-cta {
+      background: var(--brand-grad);
+    }
+
+    .icon-primary-brand {
+      color: var(--brand-primary);
+    }
+
+    @media (max-width: 900px) {
+      .page-hero-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .page-hero-title { font-size: 32px; }
+      .page-hero-visual { height: 320px; }
+      .page-hero-stat-row { gap: 24px; flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-left">
+        <span>欢迎来到安心云</span>
+        <span class="topbar-divider">|</span>
+        <a href="#">安全学院</a>
+        <a href="#">合规中心</a>
+      </div>
+      <div class="topbar-right">
+        <a href="index.html">返回主站</a>
+        <span class="topbar-divider">|</span>
+        <a href="#">服务协议</a>
+        <a href="#">隐私政策</a>
+        <span class="topbar-divider">|</span>
+        <a href="#">简体中文</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a href="index.html" class="nav-brand">
+          <div class="nav-brand-icon" style="background: var(--brand-grad);">安</div>
+          安心云
+        </a>
+        <div class="nav-links">
+          <a href="#features" class="nav-link">产品功能</a>
+          <a href="#scenarios" class="nav-link">应用场景</a>
+          <a href="#qualification" class="nav-link">资质认证</a>
+          <a href="#faq" class="nav-link">帮助中心</a>
+        </div>
+      </div>
+      <div class="nav-right">
+        <a href="contact.html" class="nav-link-text">联系商务</a>
+        <a href="login.html?platform=anxinyun" class="btn btn-primary" style="--primary: var(--brand-primary);">登录平台</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <div class="reveal">
+        <span class="page-hero-tag">
+          <span class="icon icon-shield icon-sm"></span>
+          企业数字化安全管理平台
+        </span>
+        <h1 class="page-hero-title">
+          让安全管理<br>
+          <span class="page-hero-title-grad">更智能更高效</span>
+        </h1>
+        <p class="page-hero-desc">
+          安心云为企业提供全流程安全管控、实时数据监控、智能预警系统、应急响应等一站式安全服务解决方案，守护企业每一次服务
+        </p>
+        <div class="page-hero-actions">
+          <a href="login.html?platform=anxinyun" class="btn btn-primary btn-large" style="--primary: var(--brand-primary);">免费试用</a>
+          <a href="#features" class="btn btn-outline btn-large">了解功能</a>
+        </div>
+        <div class="page-hero-stat-row">
+          <div class="page-hero-stat-item">
+            <div class="page-hero-stat-num">98.6%</div>
+            <div class="page-hero-stat-label">安全达标率</div>
+          </div>
+          <div class="page-hero-stat-item">
+            <div class="page-hero-stat-num">5000+</div>
+            <div class="page-hero-stat-label">监控点位</div>
+          </div>
+          <div class="page-hero-stat-item">
+            <div class="page-hero-stat-num">99.9%</div>
+            <div class="page-hero-stat-label">系统可用性</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-hero-visual reveal">
+        <div class="hero-mockup hero-mockup-main">
+          <div class="mockup-header">
+            <div class="mockup-title">
+              <span class="icon icon-shield icon-sm icon-primary-brand"></span>
+              安全态势大屏
+            </div>
+            <span class="mockup-badge">实时</span>
+          </div>
+          <div class="mockup-stats">
+            <div class="mockup-stat-card">
+              <div class="mockup-stat-num">98.6%</div>
+              <div class="mockup-stat-label">安全达标率</div>
+            </div>
+            <div class="mockup-stat-card">
+              <div class="mockup-stat-num" style="color: var(--green);">1,286</div>
+              <div class="mockup-stat-label">在线人员</div>
+            </div>
+          </div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">近30天安全趋势</div>
+          <div class="mockup-chart">
+            <div class="mockup-bar" style="height: 45%;"></div>
+            <div class="mockup-bar primary" style="height: 60%;"></div>
+            <div class="mockup-bar" style="height: 50%;"></div>
+            <div class="mockup-bar primary" style="height: 72%;"></div>
+            <div class="mockup-bar" style="height: 65%;"></div>
+            <div class="mockup-bar primary" style="height: 82%;"></div>
+            <div class="mockup-bar" style="height: 75%;"></div>
+            <div class="mockup-bar primary" style="height: 88%;"></div>
+            <div class="mockup-bar" style="height: 80%;"></div>
+            <div class="mockup-bar primary" style="height: 95%;"></div>
+          </div>
+        </div>
+        <div class="mockup-float mockup-float-1">
+          <div class="mockup-float-icon cyan">
+            <span class="icon icon-alert icon-sm"></span>
+          </div>
+          <div>
+            <div class="mockup-float-title">智能预警</div>
+            <div class="mockup-float-sub">AI 实时识别</div>
+          </div>
+        </div>
+        <div class="mockup-float mockup-float-2">
+          <div class="mockup-float-icon green">
+            <span class="icon icon-check icon-sm"></span>
+          </div>
+          <div>
+            <div class="mockup-float-title">等保三级</div>
+            <div class="mockup-float-sub">权威认证</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 核心功能 -->
+  <section class="section" id="features">
+    <div class="section-header reveal">
+      <span class="section-tag">核心功能</span>
+      <h2 class="section-title">让安全管理 <span class="section-title-grad" style="background: linear-gradient(135deg, #13C2C2, #08979C); -webkit-background-clip: text;">数字化智能化</span></h2>
+      <p class="section-desc">安心云依托云计算与大数据技术，为企业打造全方位的数字化安全管理体系</p>
+    </div>
+    <div class="product-matrix">
+      <div class="product-card reveal" style="--accent: #13C2C2; --accent-bg: #E6FFFB;">
+        <div class="product-card-icon"><span class="icon icon-video"></span></div>
+        <div class="product-card-title">视频监控</div>
+        <div class="product-card-text">接入现场摄像头，AI 识别未佩戴安全帽、危险区域闯入等违规行为</div>
+        <span class="product-card-link">了解详情 <span class="icon icon-arrow-right icon-sm"></span></span>
+      </div>
+      <div class="product-card reveal" style="--accent: #1677FF; --accent-bg: #E6F4FF;">
+        <div class="product-card-icon"><span class="icon icon-search"></span></div>
+        <div class="product-card-title">隐患排查</div>
+        <div class="product-card-text">标准化排查流程，移动端现场拍照上报，整改闭环管理</div>
+        <span class="product-card-link">了解详情 <span class="icon icon-arrow-right icon-sm"></span></span>
+      </div>
+      <div class="product-card reveal" style="--accent: #722ED1; --accent-bg: #F0E6FF;">
+        <div class="product-card-icon"><span class="icon icon-alert"></span></div>
+        <div class="product-card-title">智能预警</div>
+        <div class="product-card-text">多级预警机制，风险自动识别，实时推送责任人</div>
+        <span class="product-card-link">了解详情 <span class="icon icon-arrow-right icon-sm"></span></span>
+      </div>
+      <div class="product-card reveal" style="--accent: #FA8C16; --accent-bg: #FFF7E6;">
+        <div class="product-card-icon"><span class="icon icon-book-open"></span></div>
+        <div class="product-card-title">安全培训</div>
+        <div class="product-card-text">在线安全课程库，覆盖各类作业场景，考试合格方可上岗</div>
+        <span class="product-card-link">了解详情 <span class="icon icon-arrow-right icon-sm"></span></span>
+      </div>
+      <div class="product-card reveal" style="--accent: #52C41A; --accent-bg: #F6FFED;">
+        <div class="product-card-icon"><span class="icon icon-shield"></span></div>
+        <div class="product-card-title">保险理赔</div>
+        <div class="product-card-text">商业保险在线投保、理赔全流程数字化，最快 24 小时到账</div>
+        <span class="product-card-link">了解详情 <span class="icon icon-arrow-right icon-sm"></span></span>
+      </div>
+      <div class="product-card reveal" style="--accent: #EB2F96; --accent-bg: #FFF0F6;">
+        <div class="product-card-icon"><span class="icon icon-bell"></span></div>
+        <div class="product-card-title">应急响应</div>
+        <div class="product-card-text">应急预案数字化管理，一键启动响应，救援资源快速调度</div>
+        <span class="product-card-link">了解详情 <span class="icon icon-arrow-right icon-sm"></span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 功能展示1 -->
+  <section class="section section-soft-grad">
+    <div class="showcase">
+      <div class="reveal">
+        <span class="section-tag">数据大脑</span>
+        <h3 class="showcase-content-title">一屏掌控 <br><span class="section-title-grad" style="background: linear-gradient(135deg, #13C2C2, #08979C); -webkit-background-clip: text;">全局安全态势</span></h3>
+        <p class="showcase-content-text">整合企业安全全量数据，构建智能分析模型，提前识别风险隐患，让安全管理更主动、更高效</p>
+        <ul class="showcase-list">
+          <li>多源数据汇聚：人员、设备、环境、作业四维数据整合</li>
+          <li>AI 风险识别：机器学习模型实时分析，自动标注高风险项</li>
+          <li>可视化大屏：一屏总览全局安全态势，决策辅助直观高效</li>
+          <li>智能预警：分级预警机制，风险触达即响应</li>
+        </ul>
+        <a href="login.html?platform=anxinyun" class="btn btn-primary" style="--primary: var(--brand-primary);">立即体验 <span class="icon icon-arrow-right icon-sm"></span></a>
+      </div>
+      <div class="showcase-visual reveal" style="background: linear-gradient(135deg, #E6FFFB, #B5F5EC);">
+        <span class="icon icon-shield icon-white" style="width:80px;height:80px;opacity:0.4;"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 功能展示2 -->
+  <section class="section">
+    <div class="showcase">
+      <div class="showcase-visual reveal" style="background: linear-gradient(135deg, #E6F4FF, #BAE0FF); order: 2;">
+        <span class="icon icon-video icon-white" style="width:80px;height:80px;opacity:0.4;"></span>
+      </div>
+      <div class="reveal" style="order: 1;">
+        <span class="section-tag">AI 视频分析</span>
+        <h3 class="showcase-content-title">7x24 小时 <br><span class="section-title-grad" style="background: linear-gradient(135deg, #13C2C2, #08979C); -webkit-background-clip: text;">智能监控</span></h3>
+        <p class="showcase-content-text">AI 智能识别违规行为，自动截图告警，替代人工巡检，大幅提升安全管理效率</p>
+        <ul class="showcase-list">
+          <li>未佩戴安全帽识别，准确率达 98%+</li>
+          <li>危险区域闯入检测，实时告警推送</li>
+          <li>烟火识别，第一时间发现隐患</li>
+          <li>违规行为统计分析，辅助管理决策</li>
+        </ul>
+        <a href="contact.html" class="btn btn-primary" style="--primary: var(--brand-primary);">咨询方案 <span class="icon icon-arrow-right icon-sm"></span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 应用场景 -->
+  <section class="section section-soft-grad" id="scenarios">
+    <div class="section-header reveal">
+      <span class="section-tag">应用场景</span>
+      <h2 class="section-title">多场景 <span class="section-title-grad" style="background: linear-gradient(135deg, #13C2C2, #08979C); -webkit-background-clip: text;">安全守护</span></h2>
+      <p class="section-desc">覆盖企业安全管理全场景，让安全无处不在</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card cyan reveal">
+        <div class="feature-icon"><span class="icon icon-building"></span></div>
+        <div class="feature-title">建筑工地</div>
+        <div class="feature-text">实时监控工地安全，AI 识别未佩戴安全帽、危险区域闯入等行为</div>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon"><span class="icon icon-truck"></span></div>
+        <div class="feature-title">物流仓储</div>
+        <div class="feature-text">仓库安全管理，消防通道监控，货物堆放合规检测</div>
+      </div>
+      <div class="feature-card purple reveal">
+        <div class="feature-icon"><span class="icon icon-cpu"></span></div>
+        <div class="feature-title">生产车间</div>
+        <div class="feature-text">生产设备运行监控，操作人员行为识别，危险区域入侵报警</div>
+      </div>
+      <div class="feature-card green reveal">
+        <div class="feature-icon"><span class="icon icon-users"></span></div>
+        <div class="feature-title">户外作业</div>
+        <div class="feature-text">户外工作人员定位追踪，紧急求助一键响应，电子围栏越界告警</div>
+      </div>
+      <div class="feature-card orange reveal">
+        <div class="feature-icon"><span class="icon icon-shopping-bag"></span></div>
+        <div class="feature-title">零售门店</div>
+        <div class="feature-text">门店安防监控，消防设备巡检，顾客安全保障</div>
+      </div>
+      <div class="feature-card pink reveal">
+        <div class="feature-icon"><span class="icon icon-coffee"></span></div>
+        <div class="feature-title">餐饮后厨</div>
+        <div class="feature-text">后厨操作规范监控，燃气安全检测，消防安全管理</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 核心优势数据 -->
+  <section class="section">
+    <div class="stats-row reveal">
+      <div class="stat-item">
+        <div class="stat-num">98%+</div>
+        <div class="stat-label">AI 识别准确率</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">50%</div>
+        <div class="stat-label">人工成本降低</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">80%</div>
+        <div class="stat-label">隐患发现效率提升</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">24h</div>
+        <div class="stat-label">理赔最快到账</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100万+</div>
+        <div class="stat-label">保险保障额度</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 资质认证 -->
+  <section class="section section-soft-grad" id="qualification">
+    <div class="section-header reveal">
+      <span class="section-tag">权威认证</span>
+      <h2 class="section-title">多重资质 <span class="section-title-grad" style="background: linear-gradient(135deg, #13C2C2, #08979C); -webkit-background-clip: text;">值得信赖</span></h2>
+      <p class="section-desc">通过多项权威认证，为您提供安全可靠的服务保障</p>
+    </div>
+    <div class="product-matrix">
+      <div class="product-card reveal" style="--accent: #13C2C2; --accent-bg: #E6FFFB;">
+        <div class="product-card-icon"><span class="icon icon-award"></span></div>
+        <div class="product-card-title">ISO9001 认证</div>
+        <div class="product-card-text">质量管理体系认证权威认可</div>
+      </div>
+      <div class="product-card reveal" style="--accent: #1677FF; --accent-bg: #E6F4FF;">
+        <div class="product-card-icon"><span class="icon icon-lock"></span></div>
+        <div class="product-card-title">等保三级</div>
+        <div class="product-card-text">公安部信息安全等级保护认证</div>
+      </div>
+      <div class="product-card reveal" style="--accent: #722ED1; --accent-bg: #F0E6FF;">
+        <div class="product-card-icon"><span class="icon icon-shield"></span></div>
+        <div class="product-card-title">ISO27001</div>
+        <div class="product-card-text">信息安全管理体系认证</div>
+      </div>
+      <div class="product-card reveal" style="--accent: #FA8C16; --accent-bg: #FFF7E6;">
+        <div class="product-card-icon"><span class="icon icon-clipboard"></span></div>
+        <div class="product-card-title">ISO20000</div>
+        <div class="product-card-text">IT 服务管理国际认证标准</div>
+      </div>
+      <div class="product-card reveal" style="--accent: #52C41A; --accent-bg: #F6FFED;">
+        <div class="product-card-icon"><span class="icon icon-cpu"></span></div>
+        <div class="product-card-title">软件企业认证</div>
+        <div class="product-card-text">中国软件企业的认证资质</div>
+      </div>
+      <div class="product-card reveal" style="--accent: #EB2F96; --accent-bg: #FFF0F6;">
+        <div class="product-card-icon"><span class="icon icon-check"></span></div>
+        <div class="product-card-title">CMMI3 认证</div>
+        <div class="product-card-text">软件能力成熟度模型集成</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="section-header reveal">
+      <span class="section-tag">常见问题</span>
+      <h2 class="section-title">你可能想知道</h2>
+    </div>
+    <div class="faq-wrap reveal">
+      <div class="faq-item">
+        <div class="faq-q">安心云适用于哪些企业？</div>
+        <div class="faq-a">安心云适用于所有有安全管理需求的企业，特别是建筑工地、物流仓储、生产制造、户外作业等场景。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">如何接入视频监控？</div>
+        <div class="faq-a">安心云支持主流摄像头品牌接入，企业只需提供摄像头 RTSP 地址或 SDK，即可快速接入平台。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">AI 识别准确率如何？</div>
+        <div class="faq-a">安心云 AI 识别模型经过海量数据训练，识别准确率超过 95%，持续迭代优化中。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">保险理赔需要多久？</div>
+        <div class="faq-a">在线提交理赔材料后，最快 24 小时完成审核并到账，全程数字化操作。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="cta-banner brand-cta reveal">
+      <div class="cta-inner">
+        <h2 class="cta-title">开启企业安全管理新体验</h2>
+        <p class="cta-desc">立即登录安心云，体验数字化安全管理带来的效率提升</p>
+        <div class="cta-actions">
+          <a href="login.html?platform=anxinyun" class="btn btn-white btn-large">免费试用</a>
+          <a href="contact.html" class="btn btn-ghost-white btn-large">预约演示</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand">
+            <div class="footer-brand-icon" style="background: var(--brand-grad);">安</div>
+            安心云
+          </div>
+          <p class="footer-desc">企业数字化安全管理平台，让安全管理更智能更高效，守护企业每一次服务</p>
+          <div class="footer-contact">
+            <div class="footer-contact-row">
+              <span class="icon icon-phone icon-sm"></span>
+              <span class="footer-hotline">400-158-7877</span>
+            </div>
+            <div class="footer-tip">服务时间：周一至周日 9:00-21:00</div>
+            <div><span class="icon icon-mail icon-sm"></span> service@anxinyun.com</div>
+            <div><span class="icon icon-map-pin icon-sm"></span> 杭州市钱塘区下沙街道学源街 1366 号</div>
+          </div>
+        </div>
+        <div>
+          <div class="footer-title">产品服务</div>
+          <ul class="footer-links">
+            <li><a href="anxinyun.html">安心云</a></li>
+            <li><a href="#scenarios">应用场景</a></li>
+            <li><a href="#features">产品功能</a></li>
+            <li><a href="#qualification">资质认证</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-title">解决方案</div>
+          <ul class="footer-links">
+            <li><a href="#">建筑工地</a></li>
+            <li><a href="#">物流仓储</a></li>
+            <li><a href="#">生产车间</a></li>
+            <li><a href="#">户外作业</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-title">支持</div>
+          <ul class="footer-links">
+            <li><a href="#faq">帮助中心</a></li>
+            <li><a href="#">服务协议</a></li>
+            <li><a href="#">隐私政策</a></li>
+            <li><a href="contact.html">投诉建议</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-title">商务合作</div>
+          <ul class="footer-links">
+            <li>企业邮箱：bd@anxinyun.com</li>
+            <li>代理合作：agent@anxinyun.com</li>
+            <li>媒体合作：pr@anxinyun.com</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2024 安心云 版权所有 杭州民匠科技有限公司</span>
+        <div>
+          <a href="#">浙ICP备XXXXXXXX号-1</a>
+          <a href="#">浙公网安备XXXXXXXX号</a>
+          <a href="#">电子营业执照</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

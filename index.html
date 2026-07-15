@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>民匠有约 - 智能化用工服务平台</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .portal-page {
+      min-height: 100vh;
+      background: linear-gradient(180deg, #F0F5FF 0%, #FFFFFF 50%, #FAFBFF 100%);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    .portal-page::before {
+      content: '';
+      position: absolute;
+      top: -300px;
+      right: -200px;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(22,119,255,0.08) 0%, transparent 60%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .portal-page::after {
+      content: '';
+      position: absolute;
+      bottom: -200px;
+      left: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(114,46,209,0.06) 0%, transparent 60%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .portal-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 48px;
+      position: relative;
+      z-index: 2;
+    }
+    .portal-nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .portal-nav-brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 22px;
+      font-weight: 900;
+      box-shadow: 0 4px 16px rgba(22,119,255,0.2);
+    }
+    .portal-nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .portal-nav-link {
+      font-size: 14px;
+      color: var(--text-secondary);
+      transition: var(--transition);
+    }
+    .portal-nav-link:hover { color: var(--primary); }
+    .portal-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px 80px;
+      position: relative;
+      z-index: 2;
+    }
+    .portal-content {
+      max-width: 1200px;
+      width: 100%;
+    }
+    .portal-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .portal-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 20px;
+      background: rgba(22,119,255,0.08);
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: var(--radius-full);
+      margin-bottom: 24px;
+      border: 1px solid rgba(22,119,255,0.15);
+    }
+    .portal-title {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 18px;
+      letter-spacing: -1px;
+    }
+    .portal-title-grad {
+      background: linear-gradient(120deg, var(--primary) 0%, var(--purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .portal-subtitle {
+      font-size: 17px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .portal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .portal-card {
+      background: #fff;
+      border-radius: var(--radius-2xl);
+      padding: 40px 36px;
+      border: 1px solid var(--gray-200);
+      transition: var(--transition-slow);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .portal-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 5px;
+      background: var(--card-grad);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: var(--transition-slow);
+    }
+    .portal-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.1);
+      border-color: transparent;
+    }
+    .portal-card:hover::before { transform: scaleX(1); }
+    .portal-card-icon-wrap {
+      position: relative;
+      margin-bottom: 28px;
+    }
+    .portal-card-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+      transition: var(--transition);
+    }
+    .portal-card:hover .portal-card-icon {
+      transform: scale(1.08) rotate(-3deg);
+    }
+    .portal-card-badge {
+      position: absolute;
+      top: 4px;
+      left: 84px;
+      padding: 4px 12px;
+      background: linear-gradient(135deg, #FF4D4F, #FF7A45);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: var(--radius-full);
+    }
+    .portal-card-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    .portal-card-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 24px;
+      min-height: 48px;
+    }
+    .portal-card-features {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 32px;
+      flex: 1;
+    }
+    .portal-card-feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    .portal-card-feature .icon {
+      color: var(--green);
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+    .portal-card-action {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 24px;
+      border-top: 1px solid var(--gray-100);
+    }
+    .portal-card-link-wrap {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+    .portal-card-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 10px 24px;
+      border-radius: var(--radius);
+      color: #fff;
+      transition: var(--transition);
+    }
+    .portal-card-btn:hover { transform: translateX(4px); }
+    .portal-card-link {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: var(--transition);
+    }
+    .portal-card:hover .portal-card-link { color: var(--text-secondary); }
+    .portal-footer {
+      padding: 32px 48px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    .portal-footer-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 12px;
+    }
+    .portal-footer-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .portal-footer-copy {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    @media (max-width: 900px) {
+      .portal-grid { grid-template-columns: 1fr; max-width: 480px; }
+      .portal-title { font-size: 32px; }
+      .portal-nav { padding: 16px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="portal-page">
+    <!-- 顶部导航 -->
+    <div class="portal-nav">
+      <a href="index.html" class="portal-nav-brand">
+        <div class="portal-nav-brand-icon">匠</div>
+        民匠有约
+      </a>
+      <div class="portal-nav-right">
+        <a href="contact.html" class="portal-nav-link">联系我们</a>
+        <a href="login.html" class="btn btn-ghost">登录</a>
+        <a href="register.html" class="btn btn-primary">免费注册</a>
+      </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="portal-main">
+      <div class="portal-content">
+        <div class="portal-header">
+          <span class="portal-tag">
+            <span class="icon icon-rocket icon-sm"></span>
+            智能化用工服务平台
+          </span>
+          <h1 class="portal-title">
+            选择您的<span class="portal-title-grad">产品入口</span>
+          </h1>
+          <p class="portal-subtitle">民匠有约提供三大产品线，满足不同业务场景需求。请选择您要进入的产品平台，开启数字化服务之旅</p>
+        </div>
+
+        <div class="portal-grid">
+          <!-- 民匠企业端 -->
+          <div class="portal-card" style="--card-grad: linear-gradient(135deg, #1677FF, #4096FF);">
+            <a href="minjiang.html" class="portal-card-link-wrap">
+              <div class="portal-card-icon-wrap">
+                <div class="portal-card-icon" style="background: linear-gradient(135deg, #1677FF, #4096FF);">
+                  <span class="icon icon-clipboard icon-lg icon-white"></span>
+                </div>
+                <span class="portal-card-badge">HOT</span>
+              </div>
+              <h3 class="portal-card-title">民匠企业端</h3>
+              <p class="portal-card-desc">民匠有约企业端，AI 智能撮合，灵活用工全流程数字化管理</p>
+              <div class="portal-card-features">
+                <div class="portal-card-feature"><span class="icon icon-check icon-sm"></span> 智能匹配，1分钟发包</div>
+                <div class="portal-card-feature"><span class="icon icon-check icon-sm"></span> 电子合同，在线签署</div>
+                <div class="portal-card-feature"><span class="icon icon-check icon-sm"></span> 即时结算，T+0到账</div>
+              </div>
+            </a>
+            <div class="portal-card-action">
+              <a href="login.html" class="portal-card-btn" style="background: linear-gradient(135deg, #1677FF, #4096FF);">
+                进入平台 <span class="icon icon-arrow-right icon-sm"></span>
+              </a>
+              <a href="minjiang.html" class="portal-card-link">了解详情 <span class="icon icon-arrow-right icon-sm" style="width:12px;height:12px;"></span></a>
+            </div>
+          </div>
+
+          <!-- 安心云平台 -->
+          <div class="portal-card" style="--card-grad: linear-gradient(135deg, #1677FF, #4096FF);">
+            <a href="anxinyun.html" class="portal-card-link-wrap">
+              <div class="portal-card-icon-wrap">
+                <div class="portal-card-icon" style="background: linear-gradient(135deg, #1677FF, #4096FF);">
+                  <span class="icon icon-shield icon-lg icon-white"></span>
+                </div>
+              </div>
+              <h3 class="portal-card-title">安心云平台</h3>
+              <p class="portal-card-desc">安心云平台，企业级安全管控 · 数据监控 · 应急响应一站式服务</p>
+              <div class="portal-card-features">
+                <div class="portal-card-feature"><span class="icon icon-check icon-sm"></span> 全流程安全管控</div>
+                <div class="portal-card-feature"><span class="icon icon-check icon-sm"></span> 实时数据大屏</div>
+                <div class="portal-card-feature"><span class="icon icon-check icon-sm"></span> 智能预警系统</div>
+              </div>
+            </a>
+            <div class="portal-card-action">
+              <a href="login.html" class="portal-card-btn" style="background: linear-gradient(135deg, #1677FF, #4096FF);">
+                进入平台 <span class="icon icon-arrow-right icon-sm"></span>
+              </a>
+              <a href="anxinyun.html" class="portal-card-link">了解详情 <span class="icon icon-arrow-right icon-sm" style="width:12px;height:12px;"></span></a>
+            </div>
+          </div>
+
+          <!-- 城市代理合伙人 -->
+          <div class="portal-card" style="--card-grad: linear-gradient(135deg, #1677FF, #4096FF);">
+            <a href="agent.html" class="portal-card-link-wrap">
+              <div class="portal-card-icon-wrap">
+                <div class="portal-card-icon" style="background: linear-gradient(135deg, #1677FF, #4096FF);">
+                  <span class="icon icon-handshake icon-lg icon-white"></span>
+                </div>
+              </div>
+              <h3 class="portal-card-title">城市代理合伙人</h3>
+              <p class="portal-card-desc">城市代理合伙人计划，区域独家权益，高额流水分成，共创共赢</p>
+              <div class="portal-card-features">
+                <div class="portal-card-feature"><span class="icon icon-check icon-sm"></span> 高达30%流水分成</div>
+                <div class="portal-card-feature"><span class="icon icon-check icon-sm"></span> 区域独家代理</div>
+                <div class="portal-card-feature"><span class="icon icon-check icon-sm"></span> 总部全方位支持</div>
+              </div>
+            </a>
+            <div class="portal-card-action">
+              <a href="login.html" class="portal-card-btn" style="background: linear-gradient(135deg, #1677FF, #4096FF);">
+                进入平台 <span class="icon icon-arrow-right icon-sm"></span>
+              </a>
+              <a href="agent.html" class="portal-card-link">了解详情 <span class="icon icon-arrow-right icon-sm" style="width:12px;height:12px;"></span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部信息 -->
+    <div class="portal-footer">
+      <div class="portal-footer-info">
+        <span class="portal-footer-item">
+          <span class="icon icon-phone icon-sm"></span>
+          400-158-7877
+        </span>
+        <span class="portal-footer-item">
+          <span class="icon icon-mail icon-sm"></span>
+          service@minjiang.com
+        </span>
+        <span class="portal-footer-item">
+          <span class="icon icon-map-pin icon-sm"></span>
+          杭州市钱塘区下沙街道学源街 1366 号
+        </span>
+      </div>
+      <div class="portal-footer-copy">&copy; 2024 民匠有约 版权所有 杭州民匠科技有限公司</div>
+    </div>
+  </div>
+</body>
+</html>

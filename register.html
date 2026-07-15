@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>注册 - 民匠有约</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .login-page {
+      display: flex;
+      min-height: 100vh;
+      background: var(--bg);
+    }
+
+    /* ----- LEFT SIDE ----- */
+    .login-side {
+      flex: 1;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--purple) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 48px;
+    }
+
+    .login-side::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+      top: -200px;
+      right: -150px;
+      pointer-events: none;
+    }
+
+    .login-side::after {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.03);
+      bottom: -100px;
+      left: -100px;
+      pointer-events: none;
+    }
+
+    .login-side-content {
+      position: relative;
+      z-index: 1;
+      max-width: 420px;
+      width: 100%;
+    }
+
+    .login-side-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 48px;
+      letter-spacing: 1px;
+    }
+
+    .login-side-brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.18);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+      flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+
+    .login-side-title {
+      font-size: 36px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.35;
+      margin-bottom: 16px;
+    }
+
+    .login-side-title-grad {
+      background: linear-gradient(135deg, #FFD700, #FFA940, #FFD700);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 900;
+    }
+
+    .login-side-desc {
+      color: rgba(255,255,255,0.78);
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    .login-side-features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .login-side-feature {
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: var(--radius-lg);
+      padding: 18px 16px;
+      transition: var(--transition);
+    }
+
+    .login-side-feature:hover {
+      background: rgba(255,255,255,0.18);
+      transform: translateY(-2px);
+    }
+
+    .login-side-feature-icon {
+      margin-bottom: 10px;
+    }
+
+    .login-side-feature-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 3px;
+    }
+
+    .login-side-feature-desc {
+      font-size: 12px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* ----- RIGHT SIDE ----- */
+    .login-form-wrap {
+      width: 520px;
+      flex-shrink: 0;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      padding: 40px 48px;
+      position: relative;
+      overflow-y: auto;
+    }
+
+    .login-back {
+      position: absolute;
+      top: 32px;
+      right: 36px;
+      font-size: 13px;
+      color: var(--text-muted);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .login-back:hover {
+      color: var(--primary);
+    }
+
+    .login-form-header {
+      margin-bottom: 24px;
+    }
+
+    .login-form-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .login-form-sub {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* ----- IDENTITY SELECTION ----- */
+    .reg-identity-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .reg-identity-card {
+      padding: 18px 12px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      background: #fff;
+      position: relative;
+    }
+
+    .reg-identity-card:hover {
+      border-color: var(--gray-300);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .reg-identity-card.active {
+      border-color: var(--primary);
+      background: var(--primary-50);
+    }
+
+    .reg-identity-card.active .reg-identity-label {
+      color: var(--primary);
+    }
+
+    .reg-identity-card .reg-identity-icon {
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .reg-identity-card .reg-identity-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .reg-identity-card .reg-identity-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      transition: var(--transition);
+    }
+
+    .reg-identity-card.active .reg-identity-name {
+      color: var(--primary);
+    }
+
+    .reg-identity-card.active .reg-identity-label {
+      color: var(--primary-light);
+    }
+
+    /* ----- FORM INPUTS ----- */
+    .login-form-group {
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .login-form-group .input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      pointer-events: none;
+    }
+
+    .login-form-input {
+      width: 100%;
+      height: 46px;
+      padding: 0 14px 0 42px;
+      border: 1px solid var(--gray-300);
+      border-radius: var(--radius);
+      font-size: 14px;
+      color: var(--text);
+      background: #fff;
+      transition: var(--transition);
+      outline: none;
+    }
+
+    .login-form-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(22,119,255,0.08);
+    }
+
+    .login-form-input::placeholder {
+      color: var(--gray-400);
+    }
+
+    .login-captcha-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .login-captcha-row .login-form-input {
+      flex: 1;
+    }
+
+    .login-captcha-btn {
+      white-space: nowrap;
+      padding: 0 16px;
+      height: 46px;
+      background: var(--primary-50);
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid var(--primary-100);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+
+    .login-captcha-btn:hover {
+      background: var(--primary-100);
+    }
+
+    .login-captcha-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* ----- AGREEMENT ----- */
+    .reg-agreement {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      cursor: pointer;
+      line-height: 1.6;
+    }
+
+    .reg-agreement input {
+      margin-top: 2px;
+      accent-color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    .reg-agreement a {
+      color: var(--primary);
+      transition: var(--transition);
+    }
+
+    .reg-agreement a:hover {
+      color: var(--primary-dark);
+    }
+
+    /* ----- SUBMIT ----- */
+    .login-submit {
+      width: 100%;
+      height: 46px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: var(--radius);
+      transition: var(--transition);
+      letter-spacing: 4px;
+      box-shadow: var(--shadow-primary);
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+
+    .login-submit:hover {
+      box-shadow: var(--shadow-primary-lg);
+      transform: translateY(-1px);
+    }
+
+    .login-submit:active {
+      transform: translateY(0);
+    }
+
+    /* ----- LOGIN LINK ----- */
+    .reg-login-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .reg-login-link a {
+      color: var(--primary);
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .reg-login-link a:hover {
+      color: var(--primary-dark);
+    }
+
+    /* ----- EMPLOYER FIELDS ----- */
+    .reg-employer-fields {
+      display: block;
+    }
+
+    .reg-employer-fields.hidden {
+      display: none;
+    }
+
+    /* ----- RESPONSIVE ----- */
+    @media (max-width: 960px) {
+      .login-page {
+        flex-direction: column;
+      }
+      .login-side {
+        padding: 32px 24px;
+        min-height: auto;
+      }
+      .login-side-title {
+        font-size: 28px;
+      }
+      .login-side-features {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .login-form-wrap {
+        width: 100%;
+        padding: 32px 24px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-side-features {
+        grid-template-columns: 1fr;
+      }
+      .login-form-wrap {
+        padding: 24px 16px;
+      }
+      .reg-identity-grid {
+        gap: 8px;
+      }
+      .reg-identity-card {
+        padding: 14px 8px;
+      }
+      .reg-identity-card .reg-identity-name {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-page">
+    <!-- 左侧品牌区 -->
+    <div class="login-side">
+      <div class="login-side-content">
+        <div class="login-side-brand">
+          <div class="login-side-brand-icon">匠</div>
+          民匠有约
+        </div>
+        <h1 class="login-side-title">
+          加入<br>
+          <span class="login-side-title-grad">民匠有约</span>
+        </h1>
+        <p class="login-side-desc">注册即享全平台服务，连接发包方与优质匠人，让每一次合作都安心可靠</p>
+        <div class="login-side-features">
+          <div class="login-side-feature">
+            <div class="login-side-feature-icon">
+              <span class="icon icon-gift icon-lg icon-white"></span>
+            </div>
+            <div class="login-side-feature-title">新人福利</div>
+            <div class="login-side-feature-desc">首单立减 ¥50</div>
+          </div>
+          <div class="login-side-feature">
+            <div class="login-side-feature-icon">
+              <span class="icon icon-award icon-lg icon-white"></span>
+            </div>
+            <div class="login-side-feature-title">信誉保障</div>
+            <div class="login-side-feature-desc">实名认证 100%</div>
+          </div>
+          <div class="login-side-feature">
+            <div class="login-side-feature-icon">
+              <span class="icon icon-star icon-lg icon-white"></span>
+            </div>
+            <div class="login-side-feature-title">VIP 服务</div>
+            <div class="login-side-feature-desc">一对一专属经理</div>
+          </div>
+          <div class="login-side-feature">
+            <div class="login-side-feature-icon">
+              <span class="icon icon-rocket icon-lg icon-white"></span>
+            </div>
+            <div class="login-side-feature-title">快速入驻</div>
+            <div class="login-side-feature-desc">3 分钟快速完成</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右侧表单区 -->
+    <div class="login-form-wrap">
+      <a href="index.html" class="login-back">
+        <span class="icon icon-arrow-left icon-sm"></span>
+        返回首页
+      </a>
+
+      <div class="login-form-header">
+        <div class="login-form-title">创建账号</div>
+        <div class="login-form-sub">选择身份，开始您的民匠有约之旅</div>
+      </div>
+
+      <!-- 身份选择 -->
+      <div class="reg-identity-grid">
+        <div class="reg-identity-card active" data-role="employer">
+          <div class="reg-identity-icon">
+            <span class="icon icon-building icon-lg icon-primary"></span>
+          </div>
+          <div class="reg-identity-name">我是发包方</div>
+          <div class="reg-identity-label">企业用户</div>
+        </div>
+        <div class="reg-identity-card" data-role="worker">
+          <div class="reg-identity-icon">
+            <span class="icon icon-user icon-lg icon-purple"></span>
+          </div>
+          <div class="reg-identity-name">我是接单者</div>
+          <div class="reg-identity-label">个人用户</div>
+        </div>
+        <div class="reg-identity-card" data-role="agent">
+          <div class="reg-identity-icon">
+            <span class="icon icon-handshake icon-lg icon-cyan"></span>
+          </div>
+          <div class="reg-identity-name">我是代理商</div>
+          <div class="reg-identity-label">城市代理</div>
+        </div>
+      </div>
+
+      <form id="registerForm">
+        <!-- 企业注册额外字段 -->
+        <div class="reg-employer-fields" id="employerFields">
+          <div class="login-form-group">
+            <span class="icon icon-building input-icon"></span>
+            <input type="text" class="login-form-input" placeholder="公司名称" />
+          </div>
+          <div class="login-form-group">
+            <span class="icon icon-clipboard input-icon"></span>
+            <input type="text" class="login-form-input" placeholder="统一社会信用代码 / 营业执照号" />
+          </div>
+        </div>
+
+        <div class="login-form-group">
+          <span class="icon icon-user input-icon"></span>
+          <input type="text" class="login-form-input" placeholder="姓名 / 联系人" />
+        </div>
+
+        <div class="login-form-group">
+          <span class="icon icon-phone input-icon"></span>
+          <input type="tel" class="login-form-input" placeholder="请输入手机号" />
+        </div>
+
+        <div class="login-form-group">
+          <div class="login-captcha-row">
+            <span class="icon icon-message input-icon"></span>
+            <input type="text" class="login-form-input" placeholder="请输入短信验证码" />
+            <button type="button" class="login-captcha-btn" id="captchaBtn">获取验证码</button>
+          </div>
+        </div>
+
+        <div class="login-form-group">
+          <span class="icon icon-lock input-icon"></span>
+          <input type="password" class="login-form-input" placeholder="设置登录密码（8-20 位）" />
+        </div>
+
+        <div class="login-form-group">
+          <span class="icon icon-shield input-icon"></span>
+          <input type="password" class="login-form-input" placeholder="确认登录密码" />
+        </div>
+
+        <label class="reg-agreement">
+          <input type="checkbox" />
+          <span>我已阅读并同意 <a href="#">《民匠有约用户协议》</a> 和 <a href="#">《隐私政策》</a>，并同意接收平台重要通知</span>
+        </label>
+
+        <button type="submit" class="login-submit">立即注册</button>
+
+        <div class="reg-login-link">
+          已有账号？<a href="login.html">直接登录 <span class="icon icon-chevron-right icon-sm" style="color: var(--primary);"></span></a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // 身份选择交互
+    (function() {
+      var cards = document.querySelectorAll('.reg-identity-card');
+      var employerFields = document.getElementById('employerFields');
+
+      cards.forEach(function(card) {
+        card.addEventListener('click', function() {
+          cards.forEach(function(c) {
+            c.classList.remove('active');
+          });
+          card.classList.add('active');
+
+          var role = card.dataset.role;
+          if (role === 'employer') {
+            employerFields.classList.remove('hidden');
+          } else {
+            employerFields.classList.add('hidden');
+          }
+        });
+      });
+    })();
+
+    // 验证码按钮倒计时
+    (function() {
+      var btn = document.getElementById('captchaBtn');
+      btn.addEventListener('click', function() {
+        if (btn.disabled) return;
+        var sec = 60;
+        btn.disabled = true;
+        btn.textContent = sec + 's 后重发';
+        var timer = setInterval(function() {
+          sec--;
+          if (sec <= 0) {
+            clearInterval(timer);
+            btn.disabled = false;
+            btn.textContent = '获取验证码';
+          } else {
+            btn.textContent = sec + 's 后重发';
+          }
+        }, 1000);
+      });
+    })();
+  </script>
+</body>
+</html>

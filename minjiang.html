@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>民匠有约 - 灵活用工数字化平台</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    :root {
+      --brand-primary: #1677FF;
+      --brand-primary-dark: #0958D9;
+      --brand-primary-50: #E6F4FF;
+      --brand-primary-100: #BAE0FF;
+      --brand-grad: linear-gradient(135deg, #1677FF 0%, #4096FF 100%);
+      --brand-grad-light: linear-gradient(180deg, #E6F4FF 0%, #FFFFFF 100%);
+    }
+
+    .page-hero {
+      position: relative;
+      padding: 80px 24px 100px;
+      background: var(--brand-grad-light);
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -100px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(22,119,255,0.1) 0%, transparent 60%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -150px;
+      left: -100px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(64,150,255,0.08) 0%, transparent 60%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .page-hero-inner {
+      max-width: var(--container);
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .page-hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      background: rgba(22,119,255,0.1);
+      color: var(--brand-primary);
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: var(--radius-full);
+      margin-bottom: 20px;
+      border: 1px solid rgba(22,119,255,0.2);
+    }
+    .page-hero-title {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.15;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+    .page-hero-title-grad {
+      background: var(--brand-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .page-hero-desc {
+      font-size: 17px;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      margin-bottom: 32px;
+      max-width: 520px;
+    }
+    .page-hero-actions {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .page-hero-stat-row {
+      display: flex;
+      gap: 40px;
+    }
+    .page-hero-stat-item {
+      text-align: left;
+    }
+    .page-hero-stat-num {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--brand-primary);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .page-hero-stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .page-hero-visual {
+      position: relative;
+      height: 420px;
+    }
+    .hero-mockup {
+      position: absolute;
+      background: #fff;
+      border-radius: var(--radius-2xl);
+      box-shadow: 0 20px 50px rgba(22,119,255,0.15);
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+    }
+    .hero-mockup-main {
+      top: 0;
+      left: 0;
+      right: 40px;
+      bottom: 20px;
+      padding: 20px;
+    }
+    .mockup-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--gray-100);
+      margin-bottom: 16px;
+    }
+    .mockup-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .mockup-badge {
+      padding: 3px 10px;
+      background: var(--brand-primary-50);
+      color: var(--brand-primary);
+      font-size: 11px;
+      font-weight: 500;
+      border-radius: var(--radius-full);
+    }
+    .mockup-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .mockup-stat-card {
+      padding: 14px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--brand-primary-50), #F0F5FF);
+    }
+    .mockup-stat-num {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--brand-primary);
+    }
+    .mockup-stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .mockup-chart {
+      background: var(--gray-50);
+      border-radius: var(--radius);
+      padding: 14px;
+      height: 120px;
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+    }
+    .mockup-bar {
+      flex: 1;
+      background: var(--brand-primary-100);
+      border-radius: 4px 4px 0 0;
+      transition: height 0.3s;
+    }
+    .mockup-bar.primary {
+      background: var(--brand-grad);
+    }
+    .mockup-float {
+      position: absolute;
+      background: #fff;
+      border-radius: var(--radius-xl);
+      padding: 14px 18px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      border: 1px solid var(--gray-100);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .mockup-float-1 {
+      top: 30px;
+      right: 0;
+      animation: floatY 3s ease-in-out infinite;
+    }
+    .mockup-float-2 {
+      bottom: 40px;
+      right: 20px;
+      animation: floatY 3s ease-in-out infinite 1s;
+    }
+    .mockup-float-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+    .mockup-float-icon.blue { background: var(--brand-grad); }
+    .mockup-float-icon.green { background: linear-gradient(135deg, #52C41A, #73D13D); }
+    .mockup-float-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .mockup-float-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .section-soft-grad {
+      background: linear-gradient(180deg, #FFFFFF 0%, #F7F9FC 50%, #FFFFFF 100%);
+    }
+
+    .brand-cta {
+      background: var(--brand-grad);
+    }
+
+    .icon-primary-brand {
+      color: var(--brand-primary);
+    }
+
+    @media (max-width: 900px) {
+      .page-hero-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .page-hero-title { font-size: 32px; }
+      .page-hero-visual { height: 320px; }
+      .page-hero-stat-row { gap: 24px; flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-left">
+        <span>欢迎来到民匠有约</span>
+        <span class="topbar-divider">|</span>
+        <a href="#">服务商中心</a>
+        <a href="#">开发者中心</a>
+      </div>
+      <div class="topbar-right">
+        <a href="index.html">返回主站</a>
+        <span class="topbar-divider">|</span>
+        <a href="#">服务协议</a>
+        <a href="#">隐私政策</a>
+        <span class="topbar-divider">|</span>
+        <a href="#">简体中文</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a href="index.html" class="nav-brand">
+          <div class="nav-brand-icon" style="background: var(--brand-grad);">匠</div>
+          民匠有约
+        </a>
+        <div class="nav-links">
+          <a href="#features" class="nav-link">产品功能</a>
+          <a href="#solutions" class="nav-link">行业方案</a>
+          <a href="#cases" class="nav-link">客户案例</a>
+          <a href="#faq" class="nav-link">帮助中心</a>
+        </div>
+      </div>
+      <div class="nav-right">
+        <a href="contact.html" class="nav-link-text">联系商务</a>
+        <a href="login.html?platform=minjiang" class="btn btn-primary">登录平台</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <div class="reveal">
+        <span class="page-hero-tag">
+          <span class="icon icon-zap icon-sm"></span>
+          灵活用工数字化平台
+        </span>
+        <h1 class="page-hero-title">
+          AI 智能撮合<br>
+          <span class="page-hero-title-grad">让用工更简单</span>
+        </h1>
+        <p class="page-hero-desc">
+          民匠有约为企业提供全流程灵活用工数字化服务，从智能发包到即时结算，一站式管理，降本增效，让每一次用工都高效、合规、安心
+        </p>
+        <div class="page-hero-actions">
+          <a href="login.html?platform=minjiang" class="btn btn-primary btn-large">免费试用</a>
+          <a href="#features" class="btn btn-outline btn-large">了解功能</a>
+        </div>
+        <div class="page-hero-stat-row">
+          <div class="page-hero-stat-item">
+            <div class="page-hero-stat-num">5万+</div>
+            <div class="page-hero-stat-label">注册服务者</div>
+          </div>
+          <div class="page-hero-stat-item">
+            <div class="page-hero-stat-num">1.2万+</div>
+            <div class="page-hero-stat-label">合作企业</div>
+          </div>
+          <div class="page-hero-stat-item">
+            <div class="page-hero-stat-num">98.5%</div>
+            <div class="page-hero-stat-label">服务满意度</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-hero-visual reveal">
+        <div class="hero-mockup hero-mockup-main">
+          <div class="mockup-header">
+            <div class="mockup-title">
+              <span class="icon icon-clipboard icon-sm icon-primary-brand"></span>
+              用工管理控制台
+            </div>
+            <span class="mockup-badge">实时</span>
+          </div>
+          <div class="mockup-stats">
+            <div class="mockup-stat-card">
+              <div class="mockup-stat-num">¥128万</div>
+              <div class="mockup-stat-label">本月交易额</div>
+            </div>
+            <div class="mockup-stat-card">
+              <div class="mockup-stat-num" style="color: var(--green);">+28.5%</div>
+              <div class="mockup-stat-label">环比增长</div>
+            </div>
+          </div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">近30天订单趋势</div>
+          <div class="mockup-chart">
+            <div class="mockup-bar" style="height: 35%;"></div>
+            <div class="mockup-bar primary" style="height: 55%;"></div>
+            <div class="mockup-bar" style="height: 45%;"></div>
+            <div class="mockup-bar primary" style="height: 70%;"></div>
+            <div class="mockup-bar" style="height: 50%;"></div>
+            <div class="mockup-bar primary" style="height: 80%;"></div>
+            <div class="mockup-bar" style="height: 60%;"></div>
+            <div class="mockup-bar primary" style="height: 85%;"></div>
+            <div class="mockup-bar" style="height: 65%;"></div>
+            <div class="mockup-bar primary" style="height: 92%;"></div>
+          </div>
+        </div>
+        <div class="mockup-float mockup-float-1">
+          <div class="mockup-float-icon blue">
+            <span class="icon icon-zap icon-sm"></span>
+          </div>
+          <div>
+            <div class="mockup-float-title">1分钟发包</div>
+            <div class="mockup-float-sub">AI 智能匹配</div>
+          </div>
+        </div>
+        <div class="mockup-float mockup-float-2">
+          <div class="mockup-float-icon green">
+            <span class="icon icon-check icon-sm"></span>
+          </div>
+          <div>
+            <div class="mockup-float-title">即时到账</div>
+            <div class="mockup-float-sub">T+0 结算</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 核心功能 -->
+  <section class="section" id="features">
+    <div class="section-header reveal">
+      <span class="section-tag">核心功能</span>
+      <h2 class="section-title">一站式用工 <span class="section-title-grad">全流程数字化</span></h2>
+      <p class="section-desc">从需求发布到结算支付，全流程在线完成，让用工管理更高效</p>
+    </div>
+    <div class="product-matrix">
+      <div class="product-card reveal" style="--accent: #1677FF; --accent-bg: #E6F4FF;">
+        <div class="product-card-icon"><span class="icon icon-zap"></span></div>
+        <div class="product-card-title">智能发包</div>
+        <div class="product-card-text">AI 智能匹配候选人，1 分钟完成发包流程，支持按小时/按天/计件计费</div>
+        <span class="product-card-link">了解详情 <span class="icon icon-arrow-right icon-sm"></span></span>
+      </div>
+      <div class="product-card reveal" style="--accent: #722ED1; --accent-bg: #F0E6FF;">
+        <div class="product-card-icon"><span class="icon icon-file-text"></span></div>
+        <div class="product-card-title">电子合同</div>
+        <div class="product-card-text">在线签署电子合同，区块链存证，法律效力保障，告别纸质繁琐</div>
+        <span class="product-card-link">了解详情 <span class="icon icon-arrow-right icon-sm"></span></span>
+      </div>
+      <div class="product-card reveal" style="--accent: #13C2C2; --accent-bg: #E6FFFB;">
+        <div class="product-card-icon"><span class="icon icon-shield"></span></div>
+        <div class="product-card-title">全程保险</div>
+        <div class="product-card-text">商业保险实时生效，最高 100 万保障，让每一次用工都安心</div>
+        <span class="product-card-link">了解详情 <span class="icon icon-arrow-right icon-sm"></span></span>
+      </div>
+      <div class="product-card reveal" style="--accent: #FA8C16; --accent-bg: #FFF7E6;">
+        <div class="product-card-icon"><span class="icon icon-dollar"></span></div>
+        <div class="product-card-title">即时结算</div>
+        <div class="product-card-text">任务验收自动触发结算，银行级清算，资金 T+0 到账</div>
+        <span class="product-card-link">了解详情 <span class="icon icon-arrow-right icon-sm"></span></span>
+      </div>
+      <div class="product-card reveal" style="--accent: #52C41A; --accent-bg: #F6FFED;">
+        <div class="product-card-icon"><span class="icon icon-bar-chart"></span></div>
+        <div class="product-card-title">数据大屏</div>
+        <div class="product-card-text">用工数据可视化分析，成本、效率、质量一屏掌控</div>
+        <span class="product-card-link">了解详情 <span class="icon icon-arrow-right icon-sm"></span></span>
+      </div>
+      <div class="product-card reveal" style="--accent: #EB2F96; --accent-bg: #FFF0F6;">
+        <div class="product-card-icon"><span class="icon icon-smartphone"></span></div>
+        <div class="product-card-title">移动APP</div>
+        <div class="product-card-text">PC、APP、小程序多端协同，随时随地管理业务</div>
+        <span class="product-card-link">了解详情 <span class="icon icon-arrow-right icon-sm"></span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 功能展示1 -->
+  <section class="section section-soft-grad">
+    <div class="showcase">
+      <div class="reveal">
+        <span class="section-tag">智能匹配</span>
+        <h3 class="showcase-content-title">AI 精准撮合 <br><span class="section-title-grad">效率提升 300%</span></h3>
+        <p class="showcase-content-text">基于机器学习算法，综合技能、经验、位置、评价等多维度智能匹配，让对的人做对的事</p>
+        <ul class="showcase-list">
+          <li>多维度画像匹配，精准度高达 95%</li>
+          <li>智能推荐候选人，减少人工筛选成本</li>
+          <li>实时位置调度，就近派单更高效</li>
+          <li>技能标签体系，精准匹配岗位需求</li>
+        </ul>
+        <a href="login.html?platform=minjiang" class="btn btn-primary">立即体验 <span class="icon icon-arrow-right icon-sm"></span></a>
+      </div>
+      <div class="showcase-visual reveal" style="background: linear-gradient(135deg, #E6F4FF, #D6E8FF);">
+        <span class="icon icon-zap icon-white" style="width:80px;height:80px;opacity:0.4;"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 功能展示2 -->
+  <section class="section">
+    <div class="showcase">
+      <div class="showcase-visual reveal" style="background: linear-gradient(135deg, #F0E6FF, #D3ADF7); order: 2;">
+        <span class="icon icon-file-text icon-white" style="width:80px;height:80px;opacity:0.4;"></span>
+      </div>
+      <div class="reveal" style="order: 1;">
+        <span class="section-tag">电子合同</span>
+        <h3 class="showcase-content-title">在线签约 <br><span class="section-title-grad">5 分钟完成入职</span></h3>
+        <p class="showcase-content-text">区块链存证电子合同，法律效力等同纸质，在线签署即刻生效，大幅提升入职效率</p>
+        <ul class="showcase-list">
+          <li>电子签名，法律效力有保障</li>
+          <li>区块链存证，防篡改可追溯</li>
+          <li>模板化合同，一键生成更高效</li>
+          <li>全生命周期管理，到期自动提醒</li>
+        </ul>
+        <a href="contact.html" class="btn btn-primary">咨询方案 <span class="icon icon-arrow-right icon-sm"></span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 行业方案 -->
+  <section class="section section-soft-grad" id="solutions">
+    <div class="section-header reveal">
+      <span class="section-tag">行业方案</span>
+      <h2 class="section-title">深耕行业 <span class="section-title-grad">垂直场景</span></h2>
+      <p class="section-desc">基于多行业用工场景，提供针对性的智能化解决方案</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon"><span class="icon icon-shopping-bag"></span></div>
+        <div class="feature-title">零售连锁</div>
+        <div class="feature-text">促销员、收银员、理货员等岗位灵活用工，灵活排班，降本增效</div>
+      </div>
+      <div class="feature-card purple reveal">
+        <div class="feature-icon"><span class="icon icon-truck"></span></div>
+        <div class="feature-title">物流仓储</div>
+        <div class="feature-text">分拣、装卸、打包等岗位快速调配，应对订单波峰波谷</div>
+      </div>
+      <div class="feature-card cyan reveal">
+        <div class="feature-icon"><span class="icon icon-building"></span></div>
+        <div class="feature-title">物业管理</div>
+        <div class="feature-text">保洁、保安、绿化岗位外包，降低固定成本，提升服务质量</div>
+      </div>
+      <div class="feature-card green reveal">
+        <div class="feature-icon"><span class="icon icon-coffee"></span></div>
+        <div class="feature-title">餐饮服务</div>
+        <div class="feature-text">服务员、厨师、洗碗工等弹性用工，高峰期快速补人</div>
+      </div>
+      <div class="feature-card orange reveal">
+        <div class="feature-icon"><span class="icon icon-cpu"></span></div>
+        <div class="feature-title">生产制造</div>
+        <div class="feature-text">产线外包、岗位外包，交钥匙工程，质量绩效考核</div>
+      </div>
+      <div class="feature-card pink reveal">
+        <div class="feature-icon"><span class="icon icon-users"></span></div>
+        <div class="feature-title">更多行业</div>
+        <div class="feature-text">覆盖 50+ 行业场景，可定制化解决方案，满足个性需求</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 核心优势 -->
+  <section class="section">
+    <div class="stats-row reveal">
+      <div class="stat-item">
+        <div class="stat-num">300%</div>
+        <div class="stat-label">撮合效率提升</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">32%</div>
+        <div class="stat-label">平均用工成本降低</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">80%</div>
+        <div class="stat-label">管理时间节省</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">95%+</div>
+        <div class="stat-label">匹配准确率</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">200+</div>
+        <div class="stat-label">覆盖城市</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 客户案例 -->
+  <section class="section section-soft-grad" id="cases">
+    <div class="section-header reveal">
+      <span class="section-tag">客户案例</span>
+      <h2 class="section-title">他们都选择了 <span class="section-title-grad">民匠有约</span></h2>
+      <p class="section-desc">越来越多的企业选择民匠有约，开启用工管理新篇章</p>
+    </div>
+    <div class="case-grid">
+      <div class="case-card reveal">
+        <div class="case-img" style="background: linear-gradient(135deg, #FFE7BA, #FFD591);">
+          <span class="icon icon-shopping-bag" style="width:48px;height:48px;color:rgba(0,0,0,0.3);"></span>
+        </div>
+        <div class="case-body">
+          <div class="case-name">某连锁便利店品牌</div>
+          <div class="case-stats">
+            <div class="case-stat-row">
+              <span class="case-stat-label">用工成本</span>
+              <span class="case-stat-value green">降低 32%</span>
+            </div>
+            <div class="case-stat-row">
+              <span class="case-stat-label">入职效率</span>
+              <span class="case-stat-value">从3天到5分钟</span>
+            </div>
+          </div>
+          <div class="case-desc">全国 200+ 门店灵活用工全部在线化，促销员、理货员等岗位管理效率大幅提升</div>
+        </div>
+      </div>
+      <div class="case-card reveal">
+        <div class="case-img" style="background: linear-gradient(135deg, #BAE0FF, #91D5FF);">
+          <span class="icon icon-truck" style="width:48px;height:48px;color:rgba(0,0,0,0.3);"></span>
+        </div>
+        <div class="case-body">
+          <div class="case-name">某头部物流企业</div>
+          <div class="case-stats">
+            <div class="case-stat-row">
+              <span class="case-stat-label">大促人力</span>
+              <span class="case-stat-value green">提升 50%</span>
+            </div>
+            <div class="case-stat-row">
+              <span class="case-stat-label">结算效率</span>
+              <span class="case-stat-value">提升 10 倍</span>
+            </div>
+          </div>
+          <div class="case-desc">双十一期间调配 3000+ 分拣员，按件计薪自动核算，结算效率大幅提升</div>
+        </div>
+      </div>
+      <div class="case-card reveal">
+        <div class="case-img" style="background: linear-gradient(135deg, #D9F7BE, #B7EB8F);">
+          <span class="icon icon-building" style="width:48px;height:48px;color:rgba(0,0,0,0.3);"></span>
+        </div>
+        <div class="case-body">
+          <div class="case-name">某大型物业公司</div>
+          <div class="case-stats">
+            <div class="case-stat-row">
+              <span class="case-stat-label">用工风险</span>
+              <span class="case-stat-value green">降低 90%</span>
+            </div>
+            <div class="case-stat-row">
+              <span class="case-stat-label">管理效率</span>
+              <span class="case-stat-value">提升 60%</span>
+            </div>
+          </div>
+          <div class="case-desc">保洁、保安岗位全部外包，用工风险转移，30+ 项目统一管理更高效</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="section-header reveal">
+      <span class="section-tag">常见问题</span>
+      <h2 class="section-title">你可能想知道</h2>
+    </div>
+    <div class="faq-wrap reveal">
+      <div class="faq-item">
+        <div class="faq-q">民匠有约提供哪些服务？</div>
+        <div class="faq-a">民匠有约提供灵活用工全流程数字化服务，包括智能发包、AI 匹配、电子合同、即时结算、商业保险等一站式解决方案。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">企业如何开始使用？</div>
+        <div class="faq-a">企业注册认证后即可发布用工需求，平台 AI 智能匹配候选人，在线签约后即可开始用工，流程简单高效。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">服务者质量如何保障？</div>
+        <div class="faq-a">平台实行实名认证+技能认证双认证体系，建立信用评价体系，服务质量可追溯可评价。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">结算方式有哪些？</div>
+        <div class="faq-a">支持按小时、按天、计件等多种结算方式，任务验收通过自动触发结算，资金 T+0 到账。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="cta-banner brand-cta reveal">
+      <div class="cta-inner">
+        <h2 class="cta-title">开启灵活用工新体验</h2>
+        <p class="cta-desc">立即注册，体验民匠有约全平台服务，让用工更简单</p>
+        <div class="cta-actions">
+          <a href="login.html?platform=minjiang" class="btn btn-white btn-large">免费试用</a>
+          <a href="contact.html" class="btn btn-ghost-white btn-large">联系商务</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand">
+            <div class="footer-brand-icon" style="background: var(--brand-grad);">匠</div>
+            民匠有约
+          </div>
+          <p class="footer-desc">构建全民共享的智能化服务平台，连接每一次专业服务，让用工更简单，让服务更安心</p>
+          <div class="footer-contact">
+            <div class="footer-contact-row">
+              <span class="icon icon-phone icon-sm"></span>
+              <span class="footer-hotline">400-158-7877</span>
+            </div>
+            <div class="footer-tip">服务时间：周一至周日 9:00-21:00</div>
+            <div><span class="icon icon-mail icon-sm"></span> service@minjiang.com</div>
+            <div><span class="icon icon-map-pin icon-sm"></span> 杭州市钱塘区下沙街道学源街 1366 号</div>
+          </div>
+        </div>
+        <div>
+          <div class="footer-title">产品服务</div>
+          <ul class="footer-links">
+            <li><a href="minjiang.html">民匠有约</a></li>
+            <li><a href="#solutions">行业方案</a></li>
+            <li><a href="#features">产品功能</a></li>
+            <li><a href="#cases">客户案例</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-title">解决方案</div>
+          <ul class="footer-links">
+            <li><a href="#">零售连锁</a></li>
+            <li><a href="#">物流仓储</a></li>
+            <li><a href="#">物业管理</a></li>
+            <li><a href="#">生产制造</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-title">支持</div>
+          <ul class="footer-links">
+            <li><a href="#faq">帮助中心</a></li>
+            <li><a href="#">服务协议</a></li>
+            <li><a href="#">隐私政策</a></li>
+            <li><a href="contact.html">投诉建议</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-title">商务合作</div>
+          <ul class="footer-links">
+            <li>企业邮箱：bd@minjiang.com</li>
+            <li>代理合作：agent@minjiang.com</li>
+            <li>媒体合作：pr@minjiang.com</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2024 民匠有约 版权所有 杭州民匠科技有限公司</span>
+        <div>
+          <a href="#">浙ICP备XXXXXXXX号-1</a>
+          <a href="#">浙公网安备XXXXXXXX号</a>
+          <a href="#">电子营业执照</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
