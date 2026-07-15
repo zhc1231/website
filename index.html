@@ -130,145 +130,163 @@
     .portal-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
-      max-width: 1100px;
+      gap: 20px;
+      max-width: 1200px;
       margin: 0 auto;
     }
-    .portal-card {
-      display: block;
-      background: #fff;
-      border-radius: 24px;
-      padding: 0;
-      border: 1px solid var(--gray-200);
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    .portal-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 28px;
+      background: linear-gradient(145deg, #ffffff 0%, #f8fbff 100%);
+      border-radius: 28px;
       cursor: pointer;
       position: relative;
       overflow: hidden;
       text-decoration: none;
       color: inherit;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      border: 2px solid transparent;
     }
-    .portal-card:hover {
-      transform: translateY(-12px);
-      box-shadow: 0 32px 64px rgba(22,119,255,0.12);
-      border-color: rgba(22,119,255,0.2);
-    }
-    .portal-card:hover .portal-card-arrow {
-      transform: translateX(6px);
-    }
-    .portal-card:hover .portal-card-icon {
-      transform: scale(1.1) rotate(-5deg);
-    }
-    .portal-card-inner {
-      padding: 36px 32px 32px;
-      position: relative;
-      z-index: 1;
-    }
-    .portal-card-bg {
+    .portal-item::before {
+      content: '';
       position: absolute;
-      top: 0; right: 0; left: 0;
-      height: 140px;
-      background: var(--card-grad);
-      opacity: 0.06;
-      border-radius: 24px 24px 0 0;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 30%, rgba(22,119,255,0.06) 0%, transparent 50%);
+      opacity: 0;
       transition: opacity 0.4s ease;
     }
-    .portal-card:hover .portal-card-bg {
-      opacity: 0.1;
+    .portal-item:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: rgba(22,119,255,0.15);
+      box-shadow: 0 24px 60px rgba(22,119,255,0.08), 0 4px 16px rgba(0,0,0,0.04);
     }
-    .portal-card-icon-wrap {
-      position: relative;
-      margin-bottom: 24px;
+    .portal-item:hover::before {
+      opacity: 1;
+    }
+    .portal-icon-box {
+      width: 88px;
+      height: 88px;
+      border-radius: 24px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+      margin-bottom: 24px;
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow: 0 12px 32px rgba(22,119,255,0.15);
     }
-    .portal-card-icon {
-      width: 64px;
-      height: 64px;
+    .portal-item:hover .portal-icon-box {
+      transform: scale(1.12);
+    }
+    .portal-icon-box::after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      right: 4px;
+      bottom: 4px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.4);
+    }
+    .portal-icon-inner {
+      width: 52px;
+      height: 52px;
       border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 8px 20px rgba(22,119,255,0.2);
-      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      flex-shrink: 0;
+      background: rgba(255,255,255,0.3);
+      backdrop-filter: blur(8px);
+      position: relative;
+      z-index: 1;
     }
-    .portal-card-badge {
-      padding: 5px 14px;
+    .portal-icon-inner .icon {
+      width: 28px;
+      height: 28px;
+      color: #fff;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+    .portal-badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 4px 12px;
       background: linear-gradient(135deg, #FF4D4F, #FF7A45);
       color: #fff;
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 700;
       border-radius: var(--radius-full);
       letter-spacing: 0.5px;
+      z-index: 2;
+      box-shadow: 0 4px 12px rgba(255,77,79,0.3);
     }
-    .portal-card-title {
-      font-size: 22px;
+    .portal-title {
+      font-size: 20px;
       font-weight: 700;
       color: var(--text);
       margin-bottom: 10px;
+      text-align: center;
+      z-index: 2;
     }
-    .portal-card-desc {
-      font-size: 14px;
+    .portal-desc {
+      font-size: 13px;
       color: var(--text-secondary);
-      line-height: 1.65;
-      margin-bottom: 28px;
+      line-height: 1.6;
+      text-align: center;
+      margin-bottom: 20px;
+      z-index: 2;
     }
-    .portal-card-features {
+    .portal-features {
       display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-bottom: 28px;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 24px;
+      z-index: 2;
     }
-    .portal-card-feature {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 14px;
-      color: var(--text-secondary);
-    }
-    .portal-card-feature-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--primary);
-      flex-shrink: 0;
-    }
-    .portal-card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 32px;
-      border-top: 1px solid var(--gray-100);
+    .portal-feature {
+      padding: 6px 14px;
       background: var(--gray-50);
-      transition: background 0.3s ease;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      color: var(--text-secondary);
+      transition: all 0.3s ease;
     }
-    .portal-card:hover .portal-card-footer {
-      background: var(--primary-50);
-    }
-    .portal-card-ft-text {
-      font-size: 15px;
-      font-weight: 600;
+    .portal-item:hover .portal-feature {
+      background: rgba(22,119,255,0.08);
       color: var(--primary);
     }
-    .portal-card-arrow {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: var(--primary);
+    .portal-btn {
       display: flex;
       align-items: center;
-      justify-content: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 4px 12px rgba(22,119,255,0.3);
-    }
-    .portal-card-arrow .icon {
-      width: 16px;
-      height: 16px;
+      gap: 8px;
+      padding: 12px 28px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: var(--radius-lg);
+      transition: all 0.3s ease;
+      z-index: 2;
+      box-shadow: 0 4px 16px rgba(22,119,255,0.3);
     }
-    .portal-card:hover .portal-card-arrow {
-      box-shadow: 0 6px 16px rgba(22,119,255,0.4);
+    .portal-item:hover .portal-btn {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(22,119,255,0.4);
+    }
+    .portal-btn .icon {
+      width: 14px;
+      height: 14px;
+      transition: transform 0.3s ease;
+    }
+    .portal-item:hover .portal-btn .icon {
+      transform: translateX(4px);
     }
     .portal-footer {
       padding: 32px 48px;
@@ -331,80 +349,75 @@
         </div>
 
         <div class="portal-grid">
-          <!-- 民匠企业端 -->
-          <a href="minjiang.html" class="portal-card" style="--card-grad: linear-gradient(135deg, #1677FF, #4096FF);">
-            <div class="portal-card-bg"></div>
-            <div class="portal-card-inner">
-              <div class="portal-card-icon-wrap">
-                <div class="portal-card-icon" style="background: linear-gradient(135deg, #1677FF, #4096FF);">
-                  <span class="icon icon-clipboard icon-lg icon-white"></span>
-                </div>
-                <span class="portal-card-badge">HOT</span>
-              </div>
-              <h3 class="portal-card-title">民匠企业端</h3>
-              <p class="portal-card-desc">民匠有约企业端，AI 智能撮合，灵活用工全流程数字化管理</p>
-              <div class="portal-card-features">
-                <div class="portal-card-feature"><span class="portal-card-feature-dot"></span> 智能匹配，1分钟发包</div>
-                <div class="portal-card-feature"><span class="portal-card-feature-dot"></span> 电子合同，在线签署</div>
-                <div class="portal-card-feature"><span class="portal-card-feature-dot"></span> 即时结算，T+0到账</div>
+          <a href="minjiang.html" class="portal-item">
+            <span class="portal-badge">HOT</span>
+            <div class="portal-icon-box" style="background: linear-gradient(135deg, #1677FF, #4096FF);">
+              <div class="portal-icon-inner">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:28px;height:28px;color:#fff;">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M9 3v2"></path>
+                  <path d="M15 3v2"></path>
+                  <path d="M9 19v2"></path>
+                  <path d="M15 19v2"></path>
+                  <path d="M3 9h2"></path>
+                  <path d="M21 9h2"></path>
+                  <path d="M3 15h2"></path>
+                  <path d="M21 15h2"></path>
+                  <path d="M9 9h6"></path>
+                  <path d="M9 12h6"></path>
+                </svg>
               </div>
             </div>
-            <div class="portal-card-footer">
-              <span class="portal-card-ft-text">了解详情</span>
-              <span class="portal-card-arrow">
-                <span class="icon icon-arrow-right icon-sm"></span>
-              </span>
+            <h3 class="portal-title">民匠企业端</h3>
+            <p class="portal-desc">AI智能撮合，灵活用工全流程数字化管理</p>
+            <div class="portal-features">
+              <span class="portal-feature">智能匹配</span>
+              <span class="portal-feature">电子合同</span>
+              <span class="portal-feature">即时结算</span>
             </div>
+            <span class="portal-btn">进入平台 <span class="icon icon-arrow-right icon-sm"></span></span>
           </a>
 
-          <!-- 安心云平台 -->
-          <a href="anxinyun.html" class="portal-card" style="--card-grad: linear-gradient(135deg, #1677FF, #4096FF);">
-            <div class="portal-card-bg"></div>
-            <div class="portal-card-inner">
-              <div class="portal-card-icon-wrap">
-                <div class="portal-card-icon" style="background: linear-gradient(135deg, #1677FF, #4096FF);">
-                  <span class="icon icon-shield icon-lg icon-white"></span>
-                </div>
-              </div>
-              <h3 class="portal-card-title">安心云平台</h3>
-              <p class="portal-card-desc">安心云平台，企业级安全管控 · 数据监控 · 应急响应一站式服务</p>
-              <div class="portal-card-features">
-                <div class="portal-card-feature"><span class="portal-card-feature-dot"></span> 全流程安全管控</div>
-                <div class="portal-card-feature"><span class="portal-card-feature-dot"></span> 实时数据大屏</div>
-                <div class="portal-card-feature"><span class="portal-card-feature-dot"></span> 智能预警系统</div>
+          <a href="anxinyun.html" class="portal-item">
+            <div class="portal-icon-box" style="background: linear-gradient(135deg, #13C2C2, #2F54EB);">
+              <div class="portal-icon-inner">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:28px;height:28px;color:#fff;">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M12 8v4"></path>
+                  <path d="M12 16h.01"></path>
+                </svg>
               </div>
             </div>
-            <div class="portal-card-footer">
-              <span class="portal-card-ft-text">了解详情</span>
-              <span class="portal-card-arrow">
-                <span class="icon icon-arrow-right icon-sm"></span>
-              </span>
+            <h3 class="portal-title">安心云平台</h3>
+            <p class="portal-desc">企业级安全管控，数据监控与应急响应一站式服务</p>
+            <div class="portal-features">
+              <span class="portal-feature">安全管控</span>
+              <span class="portal-feature">数据大屏</span>
+              <span class="portal-feature">智能预警</span>
             </div>
+            <span class="portal-btn">进入平台 <span class="icon icon-arrow-right icon-sm"></span></span>
           </a>
 
-          <!-- 城市代理合伙人 -->
-          <a href="agent.html" class="portal-card" style="--card-grad: linear-gradient(135deg, #1677FF, #4096FF);">
-            <div class="portal-card-bg"></div>
-            <div class="portal-card-inner">
-              <div class="portal-card-icon-wrap">
-                <div class="portal-card-icon" style="background: linear-gradient(135deg, #1677FF, #4096FF);">
-                  <span class="icon icon-handshake icon-lg icon-white"></span>
-                </div>
-              </div>
-              <h3 class="portal-card-title">城市代理合伙人</h3>
-              <p class="portal-card-desc">城市代理合伙人计划，区域独家权益，高额流水分成，共创共赢</p>
-              <div class="portal-card-features">
-                <div class="portal-card-feature"><span class="portal-card-feature-dot"></span> 高达30%流水分成</div>
-                <div class="portal-card-feature"><span class="portal-card-feature-dot"></span> 区域独家代理</div>
-                <div class="portal-card-feature"><span class="portal-card-feature-dot"></span> 总部全方位支持</div>
+          <a href="agent.html" class="portal-item">
+            <div class="portal-icon-box" style="background: linear-gradient(135deg, #FA8C16, #FF4D4F);">
+              <div class="portal-icon-inner">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:28px;height:28px;color:#fff;">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="8.5" cy="7" r="4"></circle>
+                  <line x1="20" y1="8" x2="20" y2="14"></line>
+                  <line x1="23" y1="11" x2="17" y2="11"></line>
+                </svg>
               </div>
             </div>
-            <div class="portal-card-footer">
-              <span class="portal-card-ft-text">了解详情</span>
-              <span class="portal-card-arrow">
-                <span class="icon icon-arrow-right icon-sm"></span>
-              </span>
+            <h3 class="portal-title">城市代理合伙人</h3>
+            <p class="portal-desc">区域独家权益，高额流水分成，共创共赢</p>
+            <div class="portal-features">
+              <span class="portal-feature">30%分成</span>
+              <span class="portal-feature">独家代理</span>
+              <span class="portal-feature">总部支持</span>
             </div>
+            <span class="portal-btn">加入计划 <span class="icon icon-arrow-right icon-sm"></span></span>
           </a>
         </div>
       </div>
